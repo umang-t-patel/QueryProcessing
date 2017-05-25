@@ -1,0 +1,7 @@
+.button-transperent{
+  background-color: transparent;
+  border: none;
+}
+.filter-img{
+  filter: sepia(100%);
+}
