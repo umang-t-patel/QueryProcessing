@@ -1,5 +1,8 @@
 import nltk
+from django.conf import settings
 def texttoquery(text):
+    url = settings.NLTK_DIR
+    nltk.data.path.append(url)
     tokenized_words =  nltk.tokenize.word_tokenize(text.lower())
     # print(tokenized_words)
     # words = remove_stop_words(tokenized_words)

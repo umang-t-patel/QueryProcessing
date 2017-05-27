@@ -3,6 +3,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATES_DIR = os.path.join(BASE_DIR,'templates')
 STATIC_DIR = os.path.join(BASE_DIR,'static')
+NLTK_DIR = os.path.join(BASE_DIR,'queryprocessingapp','nltk_data')
 SECRET_KEY = 'qgw!j*bpxo7g&o1ux-(2ph818ojfj(3c#-#*_8r^8&hq5jg$3@'
 
 DEBUG = True
