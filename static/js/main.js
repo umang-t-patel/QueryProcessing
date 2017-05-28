@@ -56,33 +56,46 @@ function linebreak(s) {
 function startButton(event) {
   if (recognizing) {
     recognition.stop();
-    $("img").removeClass("filter-img");
+    $(".button-transperent").removeClass("filter-img");
     $(".change-text").html("<h2>Processing...</h2>");
     var ajax_post = function() {
-     $.ajax({
-         url : "/",
-         type : "POST",
-         data : { 'csrfmiddlewaretoken':csrftoken,'speech_text' : $("#final_span").html(), 'submit' : 'Process Text' },
-         success : function(json) {
+      if ($("#final_span").html() != "") {
+        $.ajax({
+          url : "/",
+          type : "POST",
+          data : { 'csrfmiddlewaretoken':csrftoken,'speech_text' : $("#final_span").html(), 'submit' : 'Process Text' },
+          success : function(json) {
             $(".change-text").html("");
-            var output = "<h2>Query Output</h2><h3><ul>";
-            for (var i = 0; i < json["ret_text"].length; i++) {
-              output += "<li>" + json["ret_text"][i] + "</li>";
+            var output = "<h2>Query Output</h2>"
+            if (json.ret_text.length != 0) {
+              output += "<h3><ul>";
+              for (var i = 0; i < json["ret_text"].length; i++) {
+                output += "<li>" + json["ret_text"][i] + "</li>";
+              }
+              output += "</ul><h3>";
             }
-            output += "</ul><h3>";
+            else {
+              output +="<h3>No results found.</h3>"
+            }
             $(".output-text").html(output);
-             console.log("success");
-         },
-         error : function(xhr,errmsg,err) {
-             console.log(xhr.status + ": " + xhr.responseText);
-         }
-     });
-   };
-   setTimeout(ajax_post, 2000);
+            console.log("success");
+          },
+          error : function(xhr,errmsg,err) {
+            console.log(xhr.status + ": " + xhr.responseText);
+          }
+        });
+      }
+      else {
+        $(".output-text").html("<h2>Sorry, I didn't get that. Please try again</h2>");
+        $(".change-text").html("<h2>Error...</h2>");
+      }
+    };
+    setTimeout(ajax_post, 2000);
     return;
   }
   $(".change-text").html("<h2>Listening...</h2>");
-  $("img").addClass("filter-img");
+  $(".output-text").html("");
+  $(".button-transperent").addClass("filter-img");
   speech_text = '';
   recognition.start();
   ignore_onend = false;

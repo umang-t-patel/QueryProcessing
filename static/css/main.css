@@ -1,7 +1,13 @@
 .button-transperent{
   background-color: transparent;
   border: none;
+  background: url('../img/mic-128.png') no-repeat;
+  width: 128px;
+  height: 128px;
 }
 .filter-img{
   filter: sepia(100%);
+}
+button:focus {
+    outline:none !important;
 }
