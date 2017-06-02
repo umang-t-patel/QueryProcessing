@@ -61,20 +61,25 @@ function startButton(event) {
     var ajax_post = function() {
       if ($("#final_span").html() != "") {
         $.ajax({
-          url : "/",
+          url : "google/",
           type : "POST",
           data : { 'csrfmiddlewaretoken':csrftoken,'speech_text' : $("#final_span").html(), 'submit' : 'Process Text' },
           success : function(json) {
             $(".change-text").html("");
-            var msg = new SpeechSynthesisUtterance('Please see the Query Output as below');
+            var msg = new SpeechSynthesisUtterance('Please see the Query Output from Google Natural Language Processing as below');
             window.speechSynthesis.speak(msg);
             var output = "<h2>Query Output</h2>"
             if (json.ret_text.length != 0) {
-              output += "<h3><ul>";
+              output += "<h4><ul>";
               for (var i = 0; i < json["ret_text"].length; i++) {
-                output += "<li>" + json["ret_text"][i] + "</li>";
+                output += "<li><ul><h3>" + json["ret_text"][i]["text"]+"</h3>";
+                output += "<li>Text: " + json["ret_text"][i]["text"] + "</li>";
+                output += "<li>Part of Speech: " + JSON.stringify(json["ret_text"][i]["partOfSpeech"]) + "</li>";
+                output += "<li>Dependency Edge: " + JSON.stringify(json["ret_text"][i]["dependencyEdge"]) + "</li>";
+                output += "<li>Lemma: " + json["ret_text"][i]["lemma"] + "</li>";
+                output += "</ul></li>";
               }
-              output += "</ul><h3>";
+              output += "</ul><h4>";
             }
             else {
               var msg = new SpeechSynthesisUtterance('No results found');
