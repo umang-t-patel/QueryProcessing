@@ -10,32 +10,39 @@
 </head>
 <body>
   <div class="jumbotron text-center">
-    <h1>Exago - Query Processing Demo</h1>
+    <h1><a href="/"><img src="{% static "img/logo.png"%}" alt=""></a> - Query Processing Demo</h1>
     <p>Natural Language to Sql Queries</p>
   </div>
   <div class="container">
-    <div class="row">
-      <div class="col-sm-4">
-        <button id="start_button" onmousedown="startButton(event)" class="button-transperent" onmouseup="startButton(event)"></button>
-          <br><br><br><br>
-          <div class="change-text">
-          </div>
-        </div>
-        <div class="col-sm-6">
-          <h2>
-            <span id="final_span" class="final"></span>
-            <span id="temp_span" class="temp"></span>
-          </h2>
-          <div class="output-text">
-          </div>
-        </div>
+    <div class="row" style="height:200px;">
+      <div class="col-sm-3 center-text">
+        <h3>Demo for 5 queries without any variation.
+          <br>
+          <br>
+        <a href="/demo1">Demo</a></h3>
+      </div>
+      <div class="col-sm-3 center-text">
+        <h3>Demo for 5 queries with one variation and feedback.
+          <br>
+          <br>
+        <a href="/demo2">Demo</a></h3>
+      </div>
+      <div class="col-sm-3 center-text">
+        <h3>Demo for all the queries with all variation.
+          <br>
+          <br>
+        <a href="/demo3">Demo</a></h3>
       </div>
     </div>
-    <script>
-    var mic = "{% static "img/mic-128.png"%}"
-    var mic_animate = "{% static "img/mic-128.png"%}"
-    var csrftoken = '{{ csrf_token }}';
-    </script>
-    <script src="{% static "js/main.js"%}"></script>
-  </body>
-  </html>
+  </div>
+  <script>
+  var mic = "{% static "img/mic-128.png"%}"
+  var mic_animate = "{% static "img/mic-128.png"%}"
+  var csrftoken = '{{ csrf_token }}';
+  var temp_feedback_list = [];
+  sessionStorage.setItem('feedback_list',JSON.stringify(temp_feedback_list));
+  sessionStorage.setItem('feedback_text', '');
+  </script>
+  <script src="{% static "js/main.js"%}"></script>
+</body>
+</html>

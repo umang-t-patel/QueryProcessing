@@ -1,15 +1,14 @@
+# Copyright (C) DomaniSystems, Inc. - All Rights Reserved
+# Unauthorized copying of this file, via any medium is strictly prohibited
+# Proprietary and confidential
+# Written by Umang Patel <umapatel@my.bridgeport.edu> and Jeongkyu Lee <jelee0408@gmail.com>, June 2017
+# Updated by Umang Patel, July 2017
+'''
+This is the Home Page View of the Project
+Also, NLTK data is stored in the this App Directory named as nltk_data.
+'''
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
-from queryprocessingapp import texttoquery as ttq
-# Create your views here.
 def index(request):
-	if request.method == 'POST':
-		if request.POST['submit'] == 'Process Text':
-			speech_text = request.POST['speech_text']
-			ret_text = ttq.texttoquery(speech_text)
-			ret_dict={'ret_text':ret_text}
-			return JsonResponse(ret_dict)
-	else:
-		test = []
-		ret_dict={'test':test}
-		return render(request,'index.html',context=ret_dict)
+	test = []
+	ret_dict={'test':test}
+	return render(request,'index.html',context=ret_dict)

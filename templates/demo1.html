@@ -1,0 +1,140 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Exago - Google Query Processing Demo</title>
+  <link href="{% static "img/favicon.ico"%}" rel="shortcut icon">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static "css/main.css"%}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+</head>
+<body>
+  <div class="jumbotron text-center">
+    <h1><a href="/"><img src="{% static "img/logo.png"%}" alt=""></a> - Query Processing Demo</h1>
+    <h2>Demo for 5 queries without any variation.</h2>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4">
+        <button id="start_button" onclick="startButton(event)" class="button-transperent"></button>
+        <br><br><br><br>
+        <div class="change-text">
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <h2>
+          <div class="form-group">
+          <select class="form-control input-lg" style="font-size: 22px;height: 48px;">
+            <option value="0">Select</option>
+            <option value="What city does King live?">What city does King live?</option>
+            <option value="How many employees are over 40 years old?">How many employees are over 40 years old?</option>
+            <option value="What is the largest unit price for a Beverages?">What is the largest unit price for a Beverages?</option>
+            <option value="Which Beverages has the highest unit price?">Which Beverages has the highest unit price?</option>
+            <option value="How much tofu did Buchanan sell in 2014?">How much tofu did Buchanan sell in 2014?</option>
+          </select>
+        </div>
+        </h2>
+        <h3>
+          <div class="form-group">
+        <label for="input_query">Input Query:</label>
+        <input type="text" class="form-control" id="input_query" placeholder="Enter Query" name="input_query">
+      </div>
+        <button type="submit" id="submit_input" class="btn btn-default">Submit</button>
+        </h3>
+          <h2>
+            <span id="final_span" class="final"></span>
+            <br>
+            <span id="final_span_output" class="final_output"></span>
+            <span id="temp_span" class="temp"></span>
+          </h2>
+        <div class="feedback-text">
+        </div>
+        <div class="output-value">
+        </div>
+        <div class="output-text">
+        </div>
+    </div>
+    </div>
+  </div>
+  <div id="loading"></div>
+  <script>
+  $('#loading').hide();
+  var mic = "{% static "img/mic-128.png"%}"
+  var mic_animate = "{% static "img/mic-128.png"%}"
+  var csrftoken = '{{ csrf_token }}';
+  $(function() {
+    $('select').change(function() {
+      $('#input_query').val('')
+      runtexttoquery(this.value)
+      });
+    $('#submit_input').click(function() {
+      $('select').val(0);
+      runtexttoquery($('#input_query').val())
+    });
+    function runtexttoquery(input_text) {
+      console.log(input_text);
+      final_span.innerHTML = '';
+      temp_span.innerHTML = '';
+      var temp_text = input_text
+      final_span.innerHTML = temp_text;
+        if (input_text.length > 10) {
+           $('#loading').show();
+          $.ajax({
+            url : "demo1/",
+            type : "POST",
+            data : { 'csrfmiddlewaretoken':csrftoken,'speech_text' : input_text,'feedback_text':'', 'submit' : 'Process Text' },
+            success : function(json) {
+              $(".change-text").html("");
+              var output = ""
+              if (json.ret_text.length != 0) {
+                $(".output-text").html("<h3>JSON Data: <br>"+json["ret_text"]+"</h3>");
+                var msg = new SpeechSynthesisUtterance(json["output_value"]);
+                window.speechSynthesis.speak(msg);
+                $(".output-value").html("<h2>"+json["output_value"]+"</h2>");
+                console.log("success");
+                $('#loading').hide();
+              }
+              else if (json.output_feedback.length != 0) {
+                var feedback_text = ""
+                for (var i = 0; i < json["feedback_text"].length; i++) {
+                  feedback_text += json["feedback_text"][i]
+                }
+                feedback_output = "Do you mean "+feedback_text+" in "+json["output_feedback"]+"?"
+                var msg = new SpeechSynthesisUtterance(feedback_output);
+                window.speechSynthesis.speak(msg);
+                $(".feedback-text").html("<h2>"+feedback_output+"</h2>");
+                $('#loading').hide();
+              }
+              else {
+                var msg = new SpeechSynthesisUtterance('No results found');
+                window.speechSynthesis.speak(msg);
+                output +="<h3>No results found.</h3>"
+                $(".output-value").html(output);
+                $(".output-text").html("");
+                $('#loading').hide();
+              }
+            },
+            error : function(xhr,errmsg,err) {
+              console.log(xhr.status + ": " + xhr.responseText);
+              $('#loading').hide();
+            }
+          });
+
+        }
+
+    }
+  });
+window.addEventListener('load', function(){
+
+    var start_button = document.getElementById('start_button')
+
+    start_button.addEventListener('touchstart', function(e){
+      startButton(event)
+	  e.preventDefault()
+    }, false)
+
+}, false)
+  </script>
+  <script src="{% static "js/maindemo1.js"%}"></script>
+  </body>
+  </html>

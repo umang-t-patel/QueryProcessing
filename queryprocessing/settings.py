@@ -1,8 +1,16 @@
+# Copyright (C) DomaniSystems, Inc. - All Rights Reserved
+# Unauthorized copying of this file, via any medium is strictly prohibited
+# Proprietary and confidential
+# Written by Umang Patel <umapatel@my.bridgeport.edu> and Jeongkyu Lee <jelee0408@gmail.com>, June 2017
+# Updated by Umang Patel, July 2017
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Get the templates directory path
 TEMPLATES_DIR = os.path.join(BASE_DIR,'templates')
+# Get the static directory path
 STATIC_DIR = os.path.join(BASE_DIR,'static')
+# Get the directory path where the NLTK data is stored
 NLTK_DIR = os.path.join(BASE_DIR,'queryprocessingapp','nltk_data')
 SECRET_KEY = 'qgw!j*bpxo7g&o1ux-(2ph818ojfj(3c#-#*_8r^8&hq5jg$3@'
 
@@ -18,8 +26,9 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'queryprocessingapp',
-    'queryprocessingappgoogle',
-    'testqueryprocessing',
+    'demo1',
+    'demo2',
+    'demo3',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -78,11 +87,14 @@ USE_L10N = True
 
 USE_TZ = True
 
-
+# SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# Google storage URL where our Static Files has been stored.
 STATIC_URL = 'https://storage.googleapis.com/exagodemostaticfiles/static/'
+# Local URL if we work on Local enviornment.
 # STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     STATIC_DIR,
