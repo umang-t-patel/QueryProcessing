@@ -93,7 +93,7 @@ USE_TZ = True
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Google storage URL where our Static Files has been stored.
-STATIC_URL = 'https://storage.googleapis.com/exagodemostaticfiles/static/'
+STATIC_URL = 'https://storage.googleapis.com/voice2query/static/'
 # Local URL if we work on Local enviornment.
 # STATIC_URL = '/static/'
 STATICFILES_DIRS = [
