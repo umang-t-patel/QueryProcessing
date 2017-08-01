@@ -11,7 +11,7 @@ from nltk.corpus import wordnet
 from django.conf import settings
 import numpy as np
 # Google API call with key.
-googleapikey = 'https://language.googleapis.com/v1/documents:annotateText?fields=entities(name%2Ctype)%2Ctokens&key=AIzaSyABnTrrsgCNLAqxMpdNOz9bNtFae9r7CZQ'
+googleapikey = 'https://language.googleapis.com/v1/documents:annotateText?fields=entities(name%2Ctype)%2Ctokens&key=AIzaSyCJ7HvgI9WMK7XtxgHvyNIhN-KcWqzBj14'
 # Exago API initiation call for Creating Session
 sessionurl = 'http://52.89.147.247/ExagoWebApi/Rest/Sessions'
 # Get data from the SQL database.
@@ -45,6 +45,7 @@ def googlettsapi(text):
     	data = json.dumps(request_document),
     	headers = {'Content-Type': 'application/json'})
     global entities_type
+    print(response.json())
     entities_type = response.json()['entities']
     temp_speech_text = response.json()['tokens']
     # Identify the important entities and capitalize it.
