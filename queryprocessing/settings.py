@@ -1,6 +1,3 @@
-# Copyright (C) DomaniSystems, Inc. - All Rights Reserved
-# Unauthorized copying of this file, via any medium is strictly prohibited
-# Proprietary and confidential
 # Written by Umang Patel <umapatel@my.bridgeport.edu> and Jeongkyu Lee <jelee0408@gmail.com>, June 2017
 # Updated by Umang Patel, July 2017
 import os
